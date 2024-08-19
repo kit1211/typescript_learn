@@ -14,16 +14,17 @@ declare module '@fastify/jwt' {
 }
 
 const authenticate: FastifyPluginAsync = fp(async (fastify, opts) => {
+
     fastify.decorate('authenticate', async (request, reply) => {
-        const data = await request.jwtVerify<{
-            id: number;
-        }>();
+        const data = await request.jwtVerify<{ id: number; }>();
+
         if (!data) {
             return reply.code(401).send({
                 success: false,
                 message: 'Unauthorized'
             });
         }
+
         const user = await fastify.prisma.user.findUnique({
             where: {
                 id: data.id
@@ -33,14 +34,18 @@ const authenticate: FastifyPluginAsync = fp(async (fastify, opts) => {
                 role: true
             }
         });
+
         if (!user) {
             return reply.code(401).send({
                 success: false,
                 message: 'Unauthorized'
             });
         }
-        request.user = user;
+
+        request.user = user; //คือ user ที่ login อยู่
+
     });
+
 });
 
 export default authenticate;
