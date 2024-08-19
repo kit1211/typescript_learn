@@ -24,6 +24,7 @@ class Server {
         // this.fastify.register(import('./routers/auth'), { prefix: '/auth' });
 
         await this.fastify.listen({
+            host:"0.0.0.0",
             port: 3000
         })
 
