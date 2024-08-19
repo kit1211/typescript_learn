@@ -15,13 +15,13 @@ class Server {
         
         // import plugins
         this.fastify.register(import('./plugins/prisma'));
-        // this.fastify.register(import('@fastify/jwt'), { secret: 'supersecret' });
-        // this.fastify.register(import('./plugins/authenticate'));
+        this.fastify.register(import('@fastify/jwt'), { secret: 'supersecret' });
+        this.fastify.register(import('./plugins/authenticate'));
 
         // import router and register
         this.fastify.register(import('./routers/api'), { prefix: '/api' });
-        // this.fastify.register(import('./routers/product'), { prefix: '/product' });
-        // this.fastify.register(import('./routers/auth'), { prefix: '/auth' });
+        this.fastify.register(import('./routers/product'), { prefix: '/product' });
+        this.fastify.register(import('./routers/auth'), { prefix: '/auth' });
 
         await this.fastify.listen({
             host:"0.0.0.0",
